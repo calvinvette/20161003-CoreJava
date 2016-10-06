@@ -1,5 +1,6 @@
 package trivera.core.employee;
 
+import java.io.IOException;
 import java.util.List;
 
 public class TestCustomerDAO {
@@ -100,6 +101,14 @@ public class TestCustomerDAO {
 				System.out.println("\tSize? " + foundByLastName.size());
 				System.out.println("\tLastName? " + foundByLastName.get(0).getLastName());
 			}
+		}
+		
+		try {
+			long numCusts = CustomerMockDAO.dumpData("customers.new.tab");
+			System.out.println(numCusts + " written to customers.new.tab...");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

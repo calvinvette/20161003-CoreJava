@@ -4,12 +4,16 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import java.util.zip.GZIPOutputStream;
 
 public class CustomerMockDAO implements CustomerDAO {
 
@@ -33,6 +37,32 @@ public class CustomerMockDAO implements CustomerDAO {
 		CustomerMockDAO.custsByCustomerId = custsByCustomerId;
 	}
 
+	public static Long dumpData(String fileName) throws IOException {
+		Long numberOfRecordsWritten = 0L;
+		PrintWriter out =
+				new PrintWriter(
+						new FileWriter(
+								//new OutputStreamWriter(
+										//new GZIPOutputStream(
+												new File(fileName)
+										//)
+								//)
+						)
+				);
+		for (Customer c : getCustsByCustomerId().values()) {
+			out.println(c.getCustomerId()
+					+ "\t" + c.getFirstName()
+					+ "\t" + c.getLastName()
+					+ "\t" + c.getPhoneNumber()
+					+ "\t" + c.getEmail()
+					);
+			numberOfRecordsWritten++;
+		}
+		out.flush();
+		out.close();
+		return numberOfRecordsWritten;
+	}
+	
 	static {
 		// Placeholder customers...
 		getCustsByCustomerId().put(1L, new Customer(1L, "Harry", "Potter", "555-1212", "info@hogwarts.ac.uk"));
