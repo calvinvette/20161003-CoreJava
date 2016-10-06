@@ -1,0 +1,77 @@
+package trivera.core.employee;
+
+/**
+ * <p>
+ * This component and its source code representation are copyright protected
+ * and proprietary to Trivera Technologies, LLC, Worldwide D/B/A Trivera Technologies
+ *
+ * This component and source code may be used for instructional and
+ * evaluation purposes only. No part of this component or its source code
+ * may be sold, transferred, or publicly posted, nor may it be used in a
+ * commercial or production environment, without the express written consent
+ * of Trivera Technologies, LLC
+ *
+ * Copyright (c) 2016 Trivera Technologies, LLC.
+ * http://www.triveratech.com   
+ * </p>
+ * @author Trivera Technologies Tech Team.
+ */
+
+
+public class Employee extends Person {
+    private int empID;
+
+    private Employee manager;
+
+    public Employee() {
+    }
+
+    public Employee(String name, int empID) throws PersonNameException {
+//        super(name);
+//        this.empID = empID;
+//    	this.name = name; // actually the name property inherited from the Person class
+    		setName(name);
+        setEmpID(empID);
+    }
+
+    public int getEmpID() {
+        return empID;
+    }
+
+    public Employee getManager() {
+        return manager;
+    }
+
+    public void setManager(Employee manager) {
+        this.manager = manager;
+    }
+
+    public void setEmpID(int empID) {
+        this.empID = empID;
+    }
+
+    public double calcSalary() {
+        return 0.0;
+    }
+    
+    @Override
+    public boolean equals(Object other) {
+    	if (!super.equals(other)) {
+    		return false;
+    	}
+    	if (other instanceof Employee) {
+    		Employee otherEmp = (Employee) other;
+    		return (this.getEmpID() == otherEmp.getEmpID());
+    	}
+    	return false;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer(super.toString());
+        sb.append(" - empID: ").append(empID);
+        return sb.toString();
+//    		return super.toString() + " - empID: " + empID;
+    }
+
+}

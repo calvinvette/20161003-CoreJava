@@ -1,0 +1,27 @@
+customerId	firstName	lastName	phoneNumber	email	homeAddress	workAddress
+1	Harry	Potter	+44 0206 987-1234	harry@hogwarts.ac.uk	2	1
+2	Ron	Weasley	+44 0206 987-1143	info@hogwarts.ac.uk	4	3
+3	Hermione	Granger	+44 0206 987-6631	info@hogwarts.ac.uk			5
+4	Neville	Longbottom	+44 0206 987-5151	info@hogwarts.ac.uk			6
+5	Dean	Thomas	+44 0206 987-5157	info@hogwarts.ac.uk			7
+6	Seamus	Finnigan	+44 0206 987-7467	info@hogwarts.ac.uk			8
+7	Ginny	Weasley	+44 0206 987-2728	ginny@hogwarts.ac.uk	10	9
+8	Lee	Jordan	+44 0206 987-9713	info@hogwarts.ac.uk			11
+9	Fred	Weasley	+44 0206 987-3971	fred@weasleys.co.uk	13	12
+10	George	Weasley	+44 0206 987-6431	george@weasleys.co.uk	15	14
+11	Cho	Chang	+44 0206 987-1793	cho@hogwarts.ac.uk			16
+12	Luna	Lovegood	+44 0206 987-7867	info@hogwarts.ac.uk				
+13	Parvati	Patil	+44 0206 987-2345	info@hogwarts.ac.uk				
+14	Padma	Patil	+44 0206 413-5903	info@hogwarts.ac.uk				
+15	Draco	Malfoy	+44 0206 987-2216	malfoy@hogwarts.ac.uk				
+16	Vincent	Crabbe	+44 0206 987-9438	crabbe@hogwarts.ac.uk				
+17	Gregory	Goyle	+44 0206 987-1178	goyle@hogwarts.ac.uk				
+18	Penelope	Clearwater	+44 0206 987-9392	info@hogwarts.ac.uk				
+19	Justin	Finch-Fletchley	+44 0206 987-1190	info@hogwarts.ac.uk				
+20	Ernie	Macmillan	+44 0206 987-1059	info@hogwarts.ac.uk				
+21	Cedric	Diggory	+44 0206 987-7715	info@hogwarts.ac.uk				
+22	Millicent	Bulstrode	+44 0206 987-4324	info@hogwarts.ac.uk				
+23	Hanna	Abbott	+44 0206 987-4300	info@hogwarts.ac.uk				
+24	Susan	Bones	+44 0206 987-6544	info@hogwarts.ac.uk				
+25	Fleur	Delacour	+44 0206 987-9304	info@hogwarts.ac.uk				
+26	Viktor	Krum	+44 0206 987-6317	info@hogwarts.ac.uk				
