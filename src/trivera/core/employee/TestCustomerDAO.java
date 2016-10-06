@@ -5,23 +5,25 @@ import java.util.List;
 public class TestCustomerDAO {
 
 	public static void main(String[] args) {
-		CustomerDAO dao = new CustomerMockDAO();
+		 CustomerDAO dao = new CustomerMockDAO();
+//		CustomerDAO dao = new CustomerJDBCDAO();
+
+		// findAll tests
 		List<Customer> custs = dao.findAll();
-		if (custs.size() > 0) {
+		if (custs != null && custs.size() > 0) {
 			System.out.println("Find All success");
+//			for (Customer customer : custs) {
+//				System.out.println(customer);
+//			}
 		} else {
 			System.out.println("Find All Fail");
-		}
-		for (Customer customer : custs) {
-			System.out.println(customer);
 		}
 
 		// findById tests
 		Customer found = dao.findById(1L);
 		if (found != null) {
-			if (found.getFirstName() != null && found.getFirstName().equals("Harry") 
-					&& found.getLastName() != null && found.getLastName().equals("Potter")
-					) {
+			if (found.getFirstName() != null && found.getFirstName().equals("Harry") && found.getLastName() != null
+					&& found.getLastName().equals("Potter")) {
 				System.out.println("FindById success");
 			} else {
 				System.out.println("FindById failed... (not Harry!)");
@@ -29,8 +31,7 @@ public class TestCustomerDAO {
 		} else {
 			System.out.println("FindById failed... (nothing found!)");
 		}
-		
-		
+
 		// Test for insert
 		Customer returned = dao.insert(new Customer("Neville", "Longbottom", "555-1212", "neville@hogwarts.ac.uk"));
 		Customer checked = null;
@@ -42,48 +43,53 @@ public class TestCustomerDAO {
 		} else {
 			System.out.println("Failed Insert");
 		}
-		
+
 		// update test
 		Customer g = dao.findById(7L);
-		g.setLastName("Weasley-Potter");
-		dao.update(g);
-		Customer g2 = dao.findById(7L);
-		if (g2 != null && g2.getLastName().equals("Weasley-Potter")) {
-			System.out.println("Update Success");
+		if (g != null) {
+			g.setLastName("Weasley-Potter");
+			dao.update(g);
+			Customer g2 = dao.findById(7L);
+			if (g2 != null && g2.getLastName().equals("Weasley-Potter")) {
+				System.out.println("Update Success");
+			} else {
+				System.out.println("Update Failed!");
+			}
 		} else {
-			System.out.println("Update Failed!");
+			System.out.println("Update Failed! - Fix FindByID first");
 		}
-		
-		
+		// reset DB!
+
 		// delete tests
-		
+
 		Customer snape = dao.insert(new Customer("Severus", "Snape", "+44 0206 833-1212", "snape@hogwarts.ac.uk"));
-		System.out.println(snape);
+		// System.out.println(snape);
 		dao.delete(snape);
-		Customer snapeFound = dao.findById(snape.getCustomerId());
-		if ((snapeFound == null)) {
-			System.out.println("Delete Success");
-		} else { 
-			System.out.println("Delete Failed!");
+		if (snape != null) {
+			Customer snapeFound = dao.findById(snape.getCustomerId());
+			if (snapeFound == null) {
+				System.out.println("Delete Success");
+			} else {
+				System.out.println("Delete Failed!");
+			}
+		} else {
+			System.out.println("Delete Failed! - Fix FindByID first");
 		}
-		
-		// findByLastName tests
+
+		// findByEmail tests
 		String emailToFind = "ginny@hogwarts.ac.uk";
 		List<Customer> foundByEmail = dao.findByEmail(emailToFind);
-		if (foundByEmail != null 
-				&& foundByEmail.size() == 1 
-				&& foundByEmail.get(0).getEmail().equals(emailToFind)) {
+		if (foundByEmail != null && foundByEmail.size() == 1 && foundByEmail.get(0).getEmail().equals(emailToFind)) {
 			System.out.println("FindByEmail success");
 		} else {
 			System.out.println("FindByEmail fail");
 		}
 
-		// findByEmail tests
+		// findByLastName tests
 		String lastNameToFind = "Weasley";
-		int numExpectedToFind = 4;
+		int numExpectedToFind = 3;
 		List<Customer> foundByLastName = dao.findByLastName(lastNameToFind);
-		if (foundByLastName != null 
-				&& foundByLastName.size() == numExpectedToFind 
+		if (foundByLastName != null && foundByLastName.size() == numExpectedToFind
 				&& foundByLastName.get(0).getLastName().equals(lastNameToFind)) {
 			System.out.println("FindByLastName success");
 		} else {

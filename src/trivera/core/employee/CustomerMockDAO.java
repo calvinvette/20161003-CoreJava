@@ -42,29 +42,41 @@ public class CustomerMockDAO implements CustomerDAO {
 		if (getCustomerFile() == null) {
 			setCustomerFile(new File("customers.tab"));
 		}
-		System.out.println("File: " + getCustomerFile());
+//		System.out.println("File: " + getCustomerFile());
+		BufferedReader br = null;
 		try {
-			FileReader fr = new FileReader(getCustomerFile());
-			BufferedReader br = new BufferedReader(fr);
+			br = new BufferedReader(new FileReader(getCustomerFile()));
 			String s = null;
 			setCustsByCustomerId(new HashMap<>());
-			String headerLine = br.readLine();
+			String headerLine = br.readLine(); // Skip the header line
 			while ((s = br.readLine()) != null) {
 //			String fields[ ] = s.split("\t");
 				String[ ] fields = s.split("\t");
-				getCustsByCustomerId().put(++lastCustomerId, 
-						new Customer(
-								Long.parseLong(fields[0]), // customerId 
-								fields[1], // firstName
-								fields[2], // lastName
-								fields[3], // phone
-								fields[4]  // email
-										));
+				try {
+					getCustsByCustomerId().put(++lastCustomerId, 
+							new Customer(
+									Long.parseLong(fields[0]), // customerId 
+									fields[1], // firstName
+									fields[2], // lastName
+									fields[3], // phone
+									fields[4]  // email
+											));
+				} catch (NumberFormatException e) {
+					System.err.println("Can't convert CustomerID! " + fields[0]);
+				}
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 
