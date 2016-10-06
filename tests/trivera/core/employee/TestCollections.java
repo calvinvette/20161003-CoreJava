@@ -31,7 +31,11 @@ public class TestCollections {
 		Person draco2 = new Person("Draco");
 		peeps.add(new Person("Harry"));
 		peeps.add(new Person("Ron"));
-		peeps.add(new Employee("Hermione", 1234));
+		try {
+			peeps.add(new Employee("Hermione", 1234));
+		} catch (PersonNameException e) {
+			e.printStackTrace();
+		}
 		peeps.add(new Person("Neville"));
 		peeps.add(new Person("Seamus"));
 		peeps.add(new Person("Dean"));
@@ -48,7 +52,11 @@ public class TestCollections {
 		Map<String, Person> peepHash = new HashMap<>();
 		peepHash.put("Harry", new Person("Harry"));
 		peepHash.put("Ron", new Person("Ron"));
-		peepHash.put("Hermione", new Employee("Hermione", 1234));
+		try {
+			peepHash.put("Hermione", new Employee("Hermione", 1234));
+		} catch (PersonNameException e) {
+			e.printStackTrace();
+		}
 		peepHash.put("Neville", new Person("Neville"));
 		peepHash.put("Seamus", new Person("Seamus"));
 		peepHash.put("Dean", new Person("Dean"));

@@ -1,5 +1,9 @@
 package trivera.core.employee;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,10 +11,11 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
-public class TestJDBC {
+public class PopulateWithJDBC {
 
 	public static void main(String[] args) {
 		List<Customer> customers = new Vector<>();
@@ -27,6 +32,12 @@ public class TestJDBC {
 					);
 			try {
 				Statement createTableStatement = connection.createStatement();
+				createTableStatement.execute("DROP TABLE customer");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			try {
+				Statement createTableStatement = connection.createStatement();
 				createTableStatement.execute("CREATE TABLE customer ("
 						+ "customerId INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY,"
 						+ "firstName VARCHAR(25), "
@@ -41,27 +52,39 @@ public class TestJDBC {
 					"INSERT INTO customer (firstName, lastName, phoneNumber, email) "
 					+ "VALUES (?, ?, ?, ?)");
 			
-			insertCustomerStatement.setString(1, "Harry");
-			insertCustomerStatement.setString(2, "Potter");
-			insertCustomerStatement.setString(3, "555-1212");
-			insertCustomerStatement.setString(4, "harry@hogwarts");
-			
-			insertCustomerStatement.executeUpdate();
-			
-			insertCustomerStatement.setString(1, "Ron");
-			insertCustomerStatement.setString(2, "Weasley");
-			insertCustomerStatement.setString(3, "555-1212");
-			insertCustomerStatement.setString(4, "ron@hogwarts");
-			
-			insertCustomerStatement.executeUpdate();
-
-			insertCustomerStatement.setString(1, "Hermione");
-			insertCustomerStatement.setString(2, "Granger");
-			insertCustomerStatement.setString(3, "555-1212");
-			insertCustomerStatement.setString(4, "hermione@hogwarts");
-			
-			insertCustomerStatement.executeUpdate();
-			
+			BufferedReader br = null;
+			try {
+				br = new BufferedReader(new FileReader("customers.tab"));
+				String s = null;
+				String headerLine = br.readLine(); // Skip the header line
+				while ((s = br.readLine()) != null) {
+					String[ ] fields = s.split("\t");
+						Customer c = new Customer(
+							Long.parseLong(fields[0]), // customerId 
+							fields[1], // firstName
+							fields[2], // lastName
+							fields[3], // phone
+							fields[4]  // email
+							);
+						insertCustomerStatement.setString(1, c.getFirstName());
+						insertCustomerStatement.setString(2, c.getLastName());
+						insertCustomerStatement.setString(3, c.getPhoneNumber());
+						insertCustomerStatement.setString(4, c.getEmail());
+						insertCustomerStatement.executeUpdate();
+				}
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} finally {
+				if (br != null) {
+					try {
+						br.close();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(
 					"SELECT customerId, firstName, lastName, phoneNumber, email FROM customer");
@@ -69,16 +92,19 @@ public class TestJDBC {
 
 			while (resultSet.next()) {
 				customers.add(
-					new Customer(
-						resultSet.getLong("customerId"),
-						resultSet.getString("firstName"),
-						resultSet.getString("lastName"),
-						resultSet.getString("phoneNumber"),
-						resultSet.getString("email")
-					)
+					rowToCustomer(resultSet)
 				); 
 			}
 			resultSet.close();
+			
+			PreparedStatement findByEmailQuery = connection.prepareStatement(
+					"SELECT * FROM customer WHERE email = ?");
+			findByEmailQuery.setString(1, "harry@hogwarts.ac.uk");
+			ResultSet found = findByEmailQuery.executeQuery();
+			if (found.next()) {
+				System.out.println("Found by email: " + rowToCustomer(found));
+			}
+			found.close();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -106,6 +132,16 @@ public class TestJDBC {
 			System.out.println(customer);
 		}
 		
+	}
+
+	private static Customer rowToCustomer(ResultSet resultSet) throws SQLException {
+		return new Customer(
+			resultSet.getLong("customerId"),
+			resultSet.getString("firstName"),
+			resultSet.getString("lastName"),
+			resultSet.getString("phoneNumber"),
+			resultSet.getString("email")
+		);
 	}
 
 }

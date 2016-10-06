@@ -6,8 +6,8 @@ import java.util.List;
 public class TestCustomerDAO {
 
 	public static void main(String[] args) {
-		 CustomerDAO dao = new CustomerMockDAO();
-//		CustomerDAO dao = new CustomerJDBCDAO();
+//		 CustomerDAO dao = new CustomerMockDAO();
+		CustomerDAO dao = new CustomerJDBCDAO();
 
 		// findAll tests
 		List<Customer> custs = dao.findAll();

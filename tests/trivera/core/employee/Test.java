@@ -33,7 +33,12 @@ public class Test {
         // Instantiate a person and an employee, using the two variables
         // supplied
         pers = new Person("Jennifer");
-        emp = new Employee("Bob", 10);
+        try {
+			emp = new Employee("Bob", 10);
+		} catch (PersonNameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         System.out.println("LAST PERSON: " + Person.getLastPersonName());
 
 //        System.out.println("Person   : " + pers);
@@ -44,8 +49,15 @@ public class Test {
 //        System.out.println("Bob is Jennifer? " + pers.equals(emp));
 //        System.out.println("Bob(Pers) is Bob(Emp)? " + pers2.equals(emp));
 
-        Employee emp2 = new Employee("Jennifer(Emp)", 12);
-        Employee emp3 = new Employee("Bob", 10);
+        Employee emp2 = null;
+        Employee emp3 = null;
+		try {
+			emp2 = new Employee("Jennifer(Emp)", 12);
+			emp3 = new Employee("Bob", 10);
+		} catch (PersonNameException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
 //        System.out.println("Is Jennifer(emp) same as Jennifer(pers)? " + emp2.equals(pers));
 //        System.out.println("Is Jennifer(pers) same as Jennifer(emp)? " + pers.equals(emp2));
